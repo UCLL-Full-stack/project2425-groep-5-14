@@ -46,7 +46,7 @@ async function main() {
 
   // Create some games
   const game1 = await prisma.game.create({
-    data: { title: 'The Legend of Zelda: Breath of the Wild', genre: 'Action-adventure', description: 'An open-world action-adventure game.', image: 'zelda.png', releaseDate: new Date('2017-03-03') },
+    data: { title: 'The Legend of Zelda: Breath of the Wild', genre: 'Action-adventure', description: 'An open-world action-adventure game.', image: 'zelda.jpg', releaseDate: new Date('2017-03-03') },
   });
 
   const game2 = await prisma.game.create({

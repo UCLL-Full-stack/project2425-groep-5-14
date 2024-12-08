@@ -13,7 +13,8 @@ export interface User {
     password: string;
     avatar: string;
     role: Role;
-    badges?: Badge[];
+    badges: Badge[];
+    games: Game[];
 }
 
 export interface AuthResponse {

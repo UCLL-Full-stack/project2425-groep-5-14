@@ -28,6 +28,17 @@ const getUserById = async (id: number): Promise<User> => {
     return user;
 };
 
+const getUserByUsername = async (username: string): Promise<User> => {
+    const response = await fetch(`${API_URL}/username/${username}`);
+    
+    if (!response.ok) {
+        throw new Error(`Failed to fetch user with username ${username}`);
+    }
+    
+    const user: User = await response.json();
+    return user;
+};
+
 const signup = async (userData: { username: string; password: string; avatar: string; role: string }): Promise<void> => {
     const response = await fetch(`${API_URL}/signup`, {
         method: 'POST',
@@ -64,5 +75,6 @@ export {
     getAllUsers,
     getUserById,
     signup,
-    login
+    login,
+    getUserByUsername,
 };

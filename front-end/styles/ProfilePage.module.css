@@ -1,0 +1,99 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: #ededed;
+  margin-top: 4rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #00bfff;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  border: 4px solid #00bfff;
+}
+
+.username {
+  font-size: 2rem;
+  color: #00bfff;
+  margin-bottom: 0.5rem;
+}
+
+.role {
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.editButton {
+  padding: 0.5rem 1rem;
+  background-color: #00bfff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.editButton:hover {
+  background-color: #0099cc;
+}
+
+.shelf {
+  margin-top: 2rem;
+}
+
+.shelfTitle {
+  font-size: 1.5rem;
+  color: #00bfff;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.badges, .games {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.badge, .game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #2a2a2a;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.badgeImage, .gameImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.badgeName, .gameTitle {
+  font-size: 1rem;
+  color: #ededed;
+  text-align: center;
+}

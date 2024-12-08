@@ -11,6 +11,10 @@ const getUserById = async (id: number): Promise<User | null> => {
   return await userDB.getUserById(id);
 };
 
+const getUserByUsername = async (username: string): Promise<User | null> => {
+  return await userDB.getUserByUsername(username);
+};
+
 const createUser = async (userData: { username: string; password: string; avatar: string; role: Role }): Promise<void> => {
   try {
     const user = new User(userData);
@@ -37,4 +41,4 @@ const authenticate = async (username: string, password: string): Promise<{ usern
   return { username: user.getUsername(), token, role: user.getRole() };
 };
 
-export default { getAllUsers, getUserById, createUser, authenticate };
+export default { getAllUsers, getUserById, createUser, authenticate, getUserByUsername };

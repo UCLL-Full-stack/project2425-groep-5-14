@@ -1,10 +1,14 @@
+// FILE: pages/games/[id].tsx
+
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { Game } from '@/types';
 import { getGameById } from '@/service/gameService';
 import Header from '@/components/Header';
 import Image from 'next/image';
-import styles from './GamePage.module.css';
+import styles from '@/styles/GamesPage.module.css'
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 
 interface GamePageProps {
   game: Game | null;
@@ -12,6 +16,13 @@ interface GamePageProps {
 
 const GamePage = ({ game }: GamePageProps) => {
   const router = useRouter();
+  const [message, setMessage] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -20,6 +31,11 @@ const GamePage = ({ game }: GamePageProps) => {
   if (!game) {
     return <div>Game not found</div>;
   }
+
+  const handleAddGame = () => {
+    // Handle the action of adding the game to the user's collection
+    setMessage('Game added to your collection!');
+  };
 
   return (
     <>
@@ -38,7 +54,13 @@ const GamePage = ({ game }: GamePageProps) => {
             />
           </div>
         )}
-        <p className={styles.releaseDate}>Release Date: {new Date(game.releaseDate).toLocaleDateString()}</p>
+        <p className={styles.releaseDate}>Release Date: {format(new Date(game.releaseDate), 'MM/dd/yyyy')}</p>
+        {isLoggedIn && (
+          <button className={styles.addButton} onClick={handleAddGame}>
+            I have this game
+          </button>
+        )}
+        {message && <p className={styles.message}>{message}</p>}
       </div>
     </>
   );

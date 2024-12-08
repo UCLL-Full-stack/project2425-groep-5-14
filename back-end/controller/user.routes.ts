@@ -216,6 +216,61 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
   }
 });
 
+/**
+ * @swagger
+ * /users/username/{username}:
+ *   get:
+ *     summary: Get a user by username
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The username
+ *     responses:
+ *       200:
+ *         description: A user object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "User not found"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+userRouter.get('/username/:username', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username } = req.params;
+    const user = await userService.getUserByUsername(username);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error in /users/username/:username route:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 export { userRouter };
