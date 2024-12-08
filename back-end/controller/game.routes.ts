@@ -21,7 +21,6 @@
  *           type: string
  *           description: URL to the game's image.
  */
-
           import express, { Request, Response, NextFunction } from 'express';
           import gameService from '../service/game.service';
           

@@ -1,6 +1,9 @@
-const API_URL = 'http://localhost:3000/games';
-
 import { Game } from '../types';
+const API_URL = process.env.NEXT_PUBLIC_API_URL + '/games';
+
+if (!API_URL) {
+    throw new Error('NEXT_PUBLIC_API_URL is not defined in the environment variables');
+}
 
 const getAllGames = async (): Promise<Game[]> => {
     const response = await fetch(API_URL);

@@ -1,9 +1,10 @@
-// pages/index.tsx
+
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link"; 
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
+import Header from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,6 +21,7 @@ const Home = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
       <div className={`${styles.page} ${geistSans.variable}`}>
         <header className={styles.header}>
           <h1 className={styles.title}>Welcome to the Game Hub!</h1>

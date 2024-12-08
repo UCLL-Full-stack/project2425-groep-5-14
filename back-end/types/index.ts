@@ -1,3 +1,3 @@
-type Role = 'admin' | 'student' | 'lecturer';
+type Role = 'admin' | 'user' | 'test';
 
 export { Role };

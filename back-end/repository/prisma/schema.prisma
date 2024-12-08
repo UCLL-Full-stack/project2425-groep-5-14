@@ -1,0 +1,66 @@
+// FILE: back-end/prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  password  String
+  avatar    String
+  role      Role
+  badges    Collected[]
+  reactions Reaction[]
+}
+
+model Badge {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  image       String
+  collectedBy Collected[]
+}
+
+model Collected {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  badgeId     Int
+  gameId      Int
+  collectedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  badge       Badge    @relation(fields: [badgeId], references: [id])
+  game        Game     @relation(fields: [gameId], references: [id])
+}
+
+model Game {
+  id          Int       @id @default(autoincrement())
+  title       String
+  genre       String
+  description String
+  image       String
+  releaseDate DateTime
+  reactions   Reaction[]
+  collectedBy Collected[]
+}
+
+model Reaction {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  gameId    Int
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id])
+}
+
+enum Role {
+  admin
+  user
+  test
+}

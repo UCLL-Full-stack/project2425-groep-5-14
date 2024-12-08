@@ -1,5 +1,6 @@
 import { Badge } from "./badge";
 import { Role } from "../types";
+import bcrypt from "bcrypt";
 
 export class User {
     private id?: number;
@@ -57,5 +58,13 @@ export class User {
     // Add method to get badges
     getBadges(): Badge[] {
         return this.badges;
+    }
+
+    async setPassword(password: string): Promise<void> {
+        this.password = await bcrypt.hash(password, 10);
+    }
+    
+    async comparePassword(password: string): Promise<boolean> {
+        return await bcrypt.compare(password, this.password);
     }
 }
