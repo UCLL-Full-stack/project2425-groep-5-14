@@ -64,7 +64,7 @@ const GamePage = ({ game }: GamePageProps) => {
       console.error('Error fetching next game:', error);
       router.push('/games');
     }
-  };
+  };  
 
   if (router.isFallback) {
     return <div>Loading...</div>;

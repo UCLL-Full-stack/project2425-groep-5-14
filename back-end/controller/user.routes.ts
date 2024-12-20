@@ -325,7 +325,7 @@ userRouter.get('/username/:username', async (req: Request, res: Response, next: 
  *                   type: string
  *                   example: Internal Server Error
  */
-userRouter.get('/user', verifyToken, async (req: CustomRequest, res: Response, next: NextFunction) => {
+userRouter.get('/user', async (req: CustomRequest, res: Response, next: NextFunction) => {
   try {
     if (!req.user) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -344,6 +344,54 @@ userRouter.get('/user', verifyToken, async (req: CustomRequest, res: Response, n
     res.status(200).json(user);
   } catch (error) {
     console.error('Error in /user route:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/**
+ * @swagger
+ * /user/update:
+ *   put:
+ *     summary: Update user profile
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               avatar:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User profile updated successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal Server Error
+ */
+userRouter.put('/update', async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    const { username, avatar } = req.body;
+
+    const user = await userService.getUserByUsername(username);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    await userService.updateUserProfile(username, avatar);
+
+    res.status(200).json({ message: 'User profile updated successfully' });
+  } catch (error) {
+    console.error('Error in /user/update route:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

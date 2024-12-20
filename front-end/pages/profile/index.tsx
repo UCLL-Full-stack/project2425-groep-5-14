@@ -8,46 +8,59 @@ import { getCollectedGamesByUsername} from '@/service/collectedService';
 import { getCollectedBadgesByUsername} from '@/service/collectedService';
 import styles from '@/styles/ProfilePage.module.css';
 import Link from 'next/link';
+import EditProfileModal from '@/components/EditProfile';
 
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [collectedGames, setCollectedGames] = useState<Game[] | null>(null);
   const [collectedBadges, setCollectedBadges] = useState<Badge[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const router = useRouter();
 
+  const fetchUser = async () => {
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('userName');
+
+
+    if (!token || !username) {
+      console.log('No token or username found, redirecting to login');
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const fetchedUser = await getUserByUsername(username);
+      console.log('Fetched user:', fetchedUser);
+      setUser({
+        ...fetchedUser,
+        games: fetchedUser.games || [],
+        badges: fetchedUser.badges || [],
+      });
+      setCollectedGames(await getCollectedGamesByUsername(username));
+      console.log('Fetched collected games:', collectedGames);
+      setCollectedBadges(await getCollectedBadgesByUsername(username));
+      console.log('Fetched collected badges:', collectedBadges);
+    } catch (err) {
+      console.error('Failed to fetch user data:', err);
+      setError('Failed to fetch user data');
+      router.push('/login');
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem('token');
-      const username = localStorage.getItem('userName');
-
-      if (!token || !username) {
-        console.log('No token or username found, redirecting to login');
-        router.push('/login');
-        return;
-      }
-
-      try {
-        const fetchedUser = await getUserByUsername(username);
-        console.log('Fetched user:', fetchedUser);
-        setUser({
-          ...fetchedUser,
-          games: fetchedUser.games || [], // Ensure games is an array
-          badges: fetchedUser.badges || [], // Ensure badges is an array
-        });
-        setCollectedGames(await getCollectedGamesByUsername(username));
-        console.log('Fetched collected games:', collectedGames);
-        setCollectedBadges(await getCollectedBadgesByUsername(username));
-        console.log('Fetched collected badges:', collectedBadges);
-      } catch (err) {
-        console.error('Failed to fetch user data:', err);
-        setError('Failed to fetch user data');
-        router.push('/login');
-      }
-    };
+    
 
     fetchUser();
   }, [router]);
+
+  const handleEditProfile = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleProfileUpdated = () => {
+    fetchUser();
+  };
 
   if (error) {
     return <div>{error}</div>;
@@ -66,7 +79,7 @@ const ProfilePage = () => {
           <img src={"/images/" + user.avatar} alt={user.username} className={styles.avatar} />
           <h2 className={styles.username}>{user.username}</h2>
           <p className={styles.role}>Role: {user.role}</p>
-          <button className={styles.editButton}>Edit Profile</button>
+          <button onClick={handleEditProfile} className={styles.editButton}>Edit Profile</button>
         </div>
         <div className={styles.shelf}>
           <h2 className={styles.shelfTitle}>Badges</h2>
@@ -101,6 +114,12 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+      <EditProfileModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        username={user.username}
+        onProfileUpdated={handleProfileUpdated}
+      />
     </>
   );
 };

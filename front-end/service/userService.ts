@@ -86,6 +86,20 @@ const getUserByToken = async (token: string): Promise<User | null> => {
     return user;
   };
 
+const updateUserProfile = async (username: string, avatar: string): Promise<void> => {
+    const response = await fetch(`${API_URL}/update`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, avatar }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to update user profile');
+    }
+}
+
 export {
     getAllUsers,
     getUserById,
@@ -93,4 +107,5 @@ export {
     login,
     getUserByUsername,
     getUserByToken,
+    updateUserProfile,
 };

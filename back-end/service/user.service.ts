@@ -41,6 +41,10 @@ const authenticate = async (username: string, password: string): Promise<{ usern
   return { username: user.getUsername(), token, role: user.getRole() };
 };
 
+const updateUserProfile = async (username: string, avatar: string) => {
+  userDB.updateUserProfile(username, avatar);
+};
+
 export default { getAllUsers, 
   // getUserById,
-   createUser, authenticate, getUserByUsername };
+   createUser, authenticate, getUserByUsername, updateUserProfile };

@@ -51,8 +51,22 @@ const addUser = async (user: User): Promise<void> => {
     console.error('Error adding user:', error);
     throw new Error('Error adding user');
   }
-}; 
+};
+
+const updateUserProfile = async (username: string, avatar: string) => {
+  await prisma.user.update({
+    where: { username },
+    data: { avatar },
+  });
+}
+
+const getUserById = async (id: number): Promise<User | null> => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  return user ? new User(user.username, user.password, user.avatar, user.role, user.id) : null;
+}
 
 export default { getAllUsers, 
-  // getUserById, 
-  getUserByUsername, addUser };
+   getUserById, 
+  getUserByUsername, addUser, updateUserProfile };
