@@ -28,10 +28,10 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-family: "Arial", "Helvetica", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 20px;
+  padding: 0px;
 }
 
 * {
@@ -204,7 +204,7 @@ a {
 }
 
 .logout-button {
-  color:#ff4d4d;
+  color: #ff4d4d;
   background-color: var(--background);
   border: 1px solid var(--error-color);
   border-radius: 4px;
@@ -214,4 +214,53 @@ a {
 
 .logout-button:hover {
   background-color: var(--hover-background);
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  /* background-color: #f2f2f2; */
+  font-weight: bold;
+}
+
+/* tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #ddd;
+} */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.login-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #45a049;
 }

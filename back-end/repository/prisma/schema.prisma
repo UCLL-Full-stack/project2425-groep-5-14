@@ -30,17 +30,17 @@ model Badge {
 model Collected {
   id          Int      @id @default(autoincrement())
   userId      Int
-  badgeId     Int
-  gameId      Int
+  badgeId     Int?
+  gameId      Int?
   collectedAt DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
-  badge       Badge    @relation(fields: [badgeId], references: [id])
-  game        Game     @relation(fields: [gameId], references: [id])
+  badge       Badge?   @relation(fields: [badgeId], references: [id]) // Make this field optional
+  game        Game?    @relation(fields: [gameId], references: [id])  // Make this field optional
 }
 
 model Game {
   id          Int       @id @default(autoincrement())
-  title       String
+  title       String    @unique
   genre       String
   description String
   image       String

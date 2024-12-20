@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { gameRouter } from './controller/game.routes';
 import { userRouter } from './controller/user.routes';
+import { collectedRouter } from './controller/collected.routes';
 
 const app = express();
 dotenv.config();
@@ -34,7 +35,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/games', gameRouter);
 app.use('/users', userRouter);
-
+app.use('/collected', collectedRouter);
 app.listen(port || 3000, () => {
     console.log(`Back-end is running on port ${port}.`);
 });

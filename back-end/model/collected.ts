@@ -4,24 +4,24 @@ import { Badge } from './badge';
 import { th } from 'date-fns/locale';
 
 export class Collected {
-    private game: Game;
-    private bage: Badge;
+    private game?: Game;
+    private badge?: Badge;
     private user: User;
     private collectedAt: Date;
 
-    constructor(collected: { game: Game; user: User; badge: Badge; collectedAt: Date }) {
+    constructor(collected: { game?: Game; user: User; badge?: Badge; collectedAt: Date }) {
         this.game = collected.game;
-        this.bage = collected.badge;
+        this.badge = collected.badge;
         this.user = collected.user;
         this.collectedAt = collected.collectedAt;
     }
 
-    getGame(): Game {
+    getGame(): Game | undefined {
         return this.game;
     }
 
-    getBadge(): Badge {
-        return this.bage;
+    getBadge(): Badge | undefined {
+        return this.badge;
     }
 
     getUser(): User {
@@ -34,10 +34,10 @@ export class Collected {
 
     equals(collected: Collected): boolean {
         return (
-            this.game.equals(collected.getGame()) &&
+            (this.game ? this.game.equals(collected.getGame()!) : collected.getGame() === undefined) &&
             this.user.equals(collected.getUser()) &&
             this.collectedAt === collected.getCollectedAt() &&
-            this.bage.equals(collected.getBadge())
+            (this.badge ? this.badge.equals(collected.getBadge()!) : collected.getBadge() === undefined)
         );
     }
 }

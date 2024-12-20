@@ -14,4 +14,8 @@ const createGame = async (gameData: { title: string; genre: string; description:
   await gameDB.addGame(game);
 };
 
-export default { getAllGames, getGameById, createGame };
+const deleteGameByTitle = async (title: string): Promise<void> => {
+  await gameDB.deleteGameByTitle(title);
+};
+
+export default { getAllGames, getGameById, createGame, deleteGameByTitle };

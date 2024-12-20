@@ -1,7 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import userService from '../service/user.service';
+import { verifyToken } from '../middleware/auth';
+import { User } from '../model/user';
 
 const userRouter = express.Router();
+
+interface CustomRequest extends Request {
+  user?: User;
+}
 
 /**
  * @swagger
@@ -202,19 +208,19 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *                   type: string
  *                   example: "Internal Server Error"
  */
-userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = parseInt(req.params.id, 10);
-    const user = await userService.getUserById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    console.error('Error in /users/:id route:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+// userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const userId = parseInt(req.params.id, 10);
+//     const user = await userService.getUserById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//     res.status(200).json(user);
+//   } catch (error) {
+//     console.error('Error in /users/:id route:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 
 /**
  * @swagger
@@ -270,6 +276,78 @@ userRouter.get('/username/:username', async (req: Request, res: Response, next: 
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     summary: Get user by token
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Unauthorized
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+userRouter.get('/user', verifyToken, async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userName = req.user.getUsername;
+    if (!userName) {
+      return res.status(401).json({ error: 'Unauthorized No ID' });
+    }
+    const user = await userService.getUserByUsername(userName.toString());
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error in /user route:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 

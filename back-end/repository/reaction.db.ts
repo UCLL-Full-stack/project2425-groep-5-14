@@ -20,7 +20,7 @@ const getReactionById = async (id: number): Promise<Reaction | null> => {
   });
   return reaction ? new Reaction({
     ...reaction,
-    user: new User(reaction.user),
+    user: new User(reaction.user.username, reaction.user.password, reaction.user.avatar, reaction.user.role, reaction.user.id),
     game: new Game(reaction.game)
   }) : null;
 };

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import  bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -12,19 +13,19 @@ async function main() {
 
   // Create some users
   const user1 = await prisma.user.create({
-    data: { username: 'admin', password: 'adminpassword', avatar: 'admin-avatar.png', role: 'admin' },
+    data: { username: 'admin', password: await bcrypt.hash('adminpassword', 10), avatar: 'avatar.jpg', role: 'admin' },
   });
 
   const user2 = await prisma.user.create({
-    data: { username: 'user1', password: 'user1password', avatar: 'user1-avatar.png', role: 'user' },
+    data: { username: 'user1', password: await bcrypt.hash('user1password', 10), avatar: 'avatar.jpg', role: 'user' },
   });
 
   const user3 = await prisma.user.create({
-    data: { username: 'user2', password: 'user2password', avatar: 'user2-avatar.png', role: 'user' },
+    data: { username: 'user2', password: await bcrypt.hash('user2password', 10), avatar: 'avatar.jpg', role: 'user' },
   });
 
   const user4 = await prisma.user.create({
-    data: { username: 'user3', password: 'user3password', avatar: 'user3-avatar.png', role: 'user' },
+    data: { username: 'user3', password: await bcrypt.hash('user3password', 10), avatar: 'avatar.jpg', role: 'user' },
   });
 
   // Create some badges
@@ -50,11 +51,11 @@ async function main() {
   });
 
   const game2 = await prisma.game.create({
-    data: { title: 'Super Mario Odyssey', genre: 'Platform', description: 'A 3D platform game.', image: 'mario.png', releaseDate: new Date('2017-10-27') },
+    data: { title: 'Super Mario Odyssey', genre: 'Platform', description: 'A 3D platform game.', image: 'mario.jpg', releaseDate: new Date('2017-10-27') },
   });
 
   const game3 = await prisma.game.create({
-    data: { title: 'Red Dead Redemption 2', genre: 'Action-adventure', description: 'An open-world western action-adventure game.', image: 'rdr2.png', releaseDate: new Date('2018-10-26') },
+    data: { title: 'Red Dead Redemption 2', genre: 'Action-adventure', description: 'An open-world western action-adventure game.', image: 'reddead2.avif', releaseDate: new Date('2018-10-26') },
   });
 
   const game4 = await prisma.game.create({
@@ -62,27 +63,27 @@ async function main() {
   });
 
   const game5 = await prisma.game.create({
-    data: { title: 'Cyberpunk 2077', genre: 'Action RPG', description: 'An open-world action role-playing game.', image: 'cyberpunk2077.png', releaseDate: new Date('2020-12-10') },
+    data: { title: 'Cyberpunk 2077', genre: 'Action RPG', description: 'An open-world action role-playing game.', image: 'cyberpunk.jpg', releaseDate: new Date('2020-12-10') },
   });
 
   const game6 = await prisma.game.create({
-    data: { title: 'Minecraft', genre: 'Sandbox', description: 'A sandbox game with building and survival elements.', image: 'minecraft.png', releaseDate: new Date('2011-11-18') },
+    data: { title: 'Minecraft', genre: 'Sandbox', description: 'A sandbox game with building and survival elements.', image: 'minecraft.webp', releaseDate: new Date('2011-11-18') },
   });
 
   const game7 = await prisma.game.create({
-    data: { title: 'Fortnite', genre: 'Battle Royale', description: 'A battle royale game.', image: 'fortnite.png', releaseDate: new Date('2017-07-25') },
+    data: { title: 'Fortnite', genre: 'Battle Royale', description: 'A battle royale game.', image: 'fortnite.jpg', releaseDate: new Date('2017-07-25') },
   });
 
   const game8 = await prisma.game.create({
-    data: { title: 'Among Us', genre: 'Party', description: 'A party game of teamwork and betrayal.', image: 'amongus.png', releaseDate: new Date('2018-06-15') },
+    data: { title: 'Among Us', genre: 'Party', description: 'A party game of teamwork and betrayal.', image: 'among-us.webp', releaseDate: new Date('2018-06-15') },
   });
 
   const game9 = await prisma.game.create({
-    data: { title: 'Animal Crossing: New Horizons', genre: 'Simulation', description: 'A life simulation game.', image: 'animalcrossing.png', releaseDate: new Date('2020-03-20') },
+    data: { title: 'Animal Crossing: New Horizons', genre: 'Simulation', description: 'A life simulation game.', image: 'animalcrossing.jpg', releaseDate: new Date('2020-03-20') },
   });
 
   const game10 = await prisma.game.create({
-    data: { title: 'Doom Eternal', genre: 'First-person shooter', description: 'A first-person shooter game.', image: 'doom.png', releaseDate: new Date('2020-03-20') },
+    data: { title: 'Doom Eternal', genre: 'First-person shooter', description: 'A first-person shooter game.', image: 'doom.avif', releaseDate: new Date('2020-03-20') },
   });
 
   // Create some reactions

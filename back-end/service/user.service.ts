@@ -7,9 +7,9 @@ const getAllUsers = async (): Promise<User[]> => {
   return await userDB.getAllUsers();
 };
 
-const getUserById = async (id: number): Promise<User | null> => {
-  return await userDB.getUserById(id);
-};
+// const getUserById = async (id: number): Promise<User | null> => {
+//   return await userDB.getUserById(id);
+// };
 
 const getUserByUsername = async (username: string): Promise<User | null> => {
   return await userDB.getUserByUsername(username);
@@ -17,7 +17,7 @@ const getUserByUsername = async (username: string): Promise<User | null> => {
 
 const createUser = async (userData: { username: string; password: string; avatar: string; role: Role }): Promise<void> => {
   try {
-    const user = new User(userData);
+    const user = new User(userData.username, userData.password, userData.avatar, userData.role);
     await user.setPassword(userData.password);
     await userDB.addUser(user);
   } catch (error) {
@@ -41,4 +41,6 @@ const authenticate = async (username: string, password: string): Promise<{ usern
   return { username: user.getUsername(), token, role: user.getRole() };
 };
 
-export default { getAllUsers, getUserById, createUser, authenticate, getUserByUsername };
+export default { getAllUsers, 
+  // getUserById,
+   createUser, authenticate, getUserByUsername };

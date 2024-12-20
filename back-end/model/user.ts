@@ -10,14 +10,13 @@ export class User {
     private badges: Badge[] = [];
     private role: Role;
 
-    constructor(user: { id?: number; username: string; password: string; avatar: string; role: Role; badges?: Badge[] }) {
-        this.id = user.id;
-        this.username = user.username;
-        this.password = user.password;
-        this.avatar = user.avatar;
-        this.role = user.role;
-        this.badges = user.badges || [];
-    }
+    constructor(username: string, password: string, avatar: string, role: Role, id?: number) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.avatar = avatar;
+        this.role = role;
+      }
 
     getId(): number | undefined {
         return this.id;

@@ -71,10 +71,26 @@ const login = async (credentials: { username: string; password: string }): Promi
     return authResponse;
 };
 
+const getUserByToken = async (token: string): Promise<User | null> => {
+    const response = await fetch(`${API_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    if (!response.ok) {
+      return null;
+    }
+  
+    const user: User = await response.json();
+    return user;
+  };
+
 export {
     getAllUsers,
     getUserById,
     signup,
     login,
     getUserByUsername,
+    getUserByToken,
 };

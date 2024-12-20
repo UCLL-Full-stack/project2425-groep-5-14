@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { login } from "@/service/userService";
 import { AuthResponse } from "@/types";
 import Header from "@/components/Header";
+import UserTable from '@/components/UserTable';
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -59,6 +60,7 @@ const LoginPage = () => {
         </div>
         <button type="submit" className="login-button">Login</button>
       </form>
+      <UserTable />
     </div>
     </>
   );

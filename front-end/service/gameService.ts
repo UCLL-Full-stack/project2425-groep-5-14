@@ -27,7 +27,33 @@ const getGameById = async (id: number): Promise<Game> => {
     return game;
 };
 
+const deleteGameByTitle = async (title: string): Promise<void> => {
+    const response = await fetch(`${API_URL}/${title}`, {
+      method: 'DELETE',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to delete game with id ${title}`);
+    }
+  };
+
+  const addGame = async (gameData: { title: string; genre: string; description: string; image: string; releaseDate: Date }): Promise<void> => {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(gameData),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to add game');
+    }
+  };
+  
 export {
     getAllGames,
-    getGameById
+    getGameById,
+    deleteGameByTitle,
+    addGame,
 }
