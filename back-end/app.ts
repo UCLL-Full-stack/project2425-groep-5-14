@@ -7,10 +7,13 @@ import swaggerUi from 'swagger-ui-express';
 import { gameRouter } from './controller/game.routes';
 import { userRouter } from './controller/user.routes';
 import { collectedRouter } from './controller/collected.routes';
+import helmet from 'helmet';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
+
+app.use(helmet());
 
 app.use(cors());
 app.use(bodyParser.json());
